@@ -1,0 +1,78 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.swipezone">
+
+    <!-- Permissions NFC -->
+    <uses-permission android:name="android.permission.NFC" />
+
+    <!-- Déclaration de la feature NFC -->
+    <uses-feature android:name="android.hardware.nfc" android:required="true" />
+
+    <application
+        android:label="swipezone"
+        android:name="${applicationName}"
+        android:icon="@mipmap/ic_launcher">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:taskAffinity=""
+            android:theme="@style/LaunchTheme"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+            android:hardwareAccelerated="true"
+            android:windowSoftInputMode="adjustResize">
+
+            <meta-data
+                android:name="io.flutter.embedding.android.NormalTheme"
+                android:resource="@style/NormalTheme"
+                />
+
+            <!-- Filtre pour le lancement de l'application -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+
+            <!-- Deep linking (ouvrir l’app avec swipezone://locations) -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="swipezone" android:host="locations" />
+            </intent-filter>
+        </activity>
+
+        <!-- Nécessaire pour Flutter -->
+        <meta-data
+            android:name="flutterEmbedding"
+            android:value="2" />
+    </application>
+
+    <!-- Ajout des intents pour autoriser `url_launcher` et d'autres fonctionnalités -->
+    <queries>
+        <!-- Autorisation pour ouvrir un navigateur avec url_launcher -->
+        <intent>
+            <action android:name="android.intent.action.VIEW"/>
+            <category android:name="android.intent.category.BROWSABLE"/>
+            <data android:scheme="https"/>
+        </intent>
+
+        <!-- Autoriser les actions NFC -->
+        <intent>
+            <action android:name="android.nfc.action.TECH_DISCOVERED"/>
+        </intent>
+
+        <!-- Autoriser l'envoi de SMS via url_launcher -->
+        <intent>
+            <action android:name="android.intent.action.SENDTO" />
+            <data android:scheme="sms" />
+        </intent>
+
+        <!-- Autoriser le partage de texte -->
+        <intent>
+            <action android:name="android.intent.action.PROCESS_TEXT"/>
+            <data android:mimeType="text/plain"/>
+        </intent>
+    </queries>
+
+</manifest>
